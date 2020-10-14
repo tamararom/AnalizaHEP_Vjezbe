@@ -1,5 +1,6 @@
 #include "ElementaryParticle.h"
 #include <math.h>
+#include <cstdlib>
 
 ElementaryParticle::ElementaryParticle(string x, double m, int b){
 		nameOfParticle=x;
@@ -41,7 +42,22 @@ double ElementaryParticle::transversal_momentum(double p_x, double p_y){
 }
 
 void ElementaryParticle::bosonDecay(ElementaryParticle *p1, ElementaryParticle *p2){
+	double probability;
 	if(boson==0)
 		cout << "Boson decay is not possible, particle is not a boson!" << endl;
+	probability=rand()%100;
+	if(probability<=21.4){ //W bosons
+		cout << "W boson decay" << endl;
+	}
+	else if(probability>21.4 && probability<=27.8){ //tau leptons
+		cout << "Tau leptons decay" << endl;
+	}
+	else if(probability>27.8 && probability<=30.4){ //Z bosons
+		cout << "Z bosons decay" << endl;
+	}
+	else{ //b quarks
+		cout << "B quarks decay" << endl;
+	}
+	
 	
 }
