@@ -40,8 +40,7 @@ double ElementaryParticle::transversal_momentum(double p_x, double p_y){
 	pt=p_t;
 }
 
-void ElementaryParticle::bosonDecay(int b){
-	boson=b;
+void ElementaryParticle::bosonDecay(ElementaryParticle *p1, ElementaryParticle *p2){
 	if(boson==0)
 		cout << "Boson decay is not possible, particle is not a boson!" << endl;
 	

@@ -12,14 +12,19 @@ int main (){
 	Higgs->set_fourvector_momentum(1,2,3,125);
 	Higgs->transversal_momentum(1,2);
 	Higgs->printInfo();
-	Higgs->bosonDecay(1);
+	//Higgs->bosonDecay(1);
 	
 	ElementaryParticle *top;
 	top=new ElementaryParticle("top quark",173,0);
 	top->set_fourvector_momentum(1,2,3,173);
 	top->transversal_momentum(1,2);
 	top->printInfo();
-	top->bosonDecay(0);
+	//top->bosonDecay(0);
+	
+	ElementaryParticle *p1, *p2;
+	p1= new ElementaryParticle();
+	p2= new ElementaryParticle();
+	Higgs->bosonDecay(p1,p2);
 	
 	return 0;
 }
