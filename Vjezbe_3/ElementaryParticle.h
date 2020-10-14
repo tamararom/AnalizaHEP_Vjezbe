@@ -16,10 +16,16 @@ class ElementaryParticle {
 	
 	//pozivanje konstruktora
 	ElementaryParticle (string x, double m, int b);
+	//override konstruktor
+	ElementaryParticle();
+	
 	//dodjeljivanje vrijednosti komponenti kolicine gibanja
 	double set_fourvector_momentum (double p_x, double p_y, double p_z, double m);
 	//racunanje tranzverzalne kolicine gibanja
 	double transversal_momentum (double p_x, double p_y);
+	
+	//bozon raspad
+	void bosonDecay(int b);
 	//dodjeljivanje klasi
 	void printInfo();
 };

@@ -7,6 +7,13 @@ ElementaryParticle::ElementaryParticle(string x, double m, int b){
 		boson=b;
 }
 
+//"override" konstruktor
+ElementaryParticle::ElementaryParticle(){
+		nameOfParticle="";
+		massOfParticle=0;
+		boson=0;
+}
+
 void ElementaryParticle::printInfo(){
 	cout << "Name of the particle: " << nameOfParticle << endl; //endl kao end line
 	cout << "Mass of the particle: " << massOfParticle << endl; 
@@ -31,4 +38,11 @@ double ElementaryParticle::transversal_momentum(double p_x, double p_y){
 	py=p_y;
 	p_t=sqrt(p_x*p_x+p_y*p_y);
 	pt=p_t;
+}
+
+void ElementaryParticle::bosonDecay(int b){
+	boson=b;
+	if(boson==0)
+		cout << "Boson decay is not possible, particle is not a boson!" << endl;
+	
 }
