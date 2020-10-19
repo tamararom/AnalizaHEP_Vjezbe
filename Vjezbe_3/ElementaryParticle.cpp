@@ -20,6 +20,7 @@ void ElementaryParticle::printInfo(){
 	cout << "Mass of the particle: " << massOfParticle << endl; 
 	cout << "Is it a boson (yes=1, no=0): " << boson << endl;
 	cout << "Energy of the particle: " << E << endl;
+	//cout << "Px, Py and Pz components are: " << px << py << pz << endl;
 	cout << "Transversal momentum of the particle: " << pt << endl;
 }
 
@@ -29,7 +30,7 @@ double ElementaryParticle::set_fourvector_momentum(double p_x, double p_y, doubl
 		py=p_y;
 		pz=p_z;
 		massOfParticle=m;
-		E_=sqrt(pow(px*px+py*py+pz*pz,2)+m*m);
+		E_=sqrt(px*px+py*py+pz*pz+m*m);
 		E=E_;
 }
 
@@ -41,22 +42,99 @@ double ElementaryParticle::transversal_momentum(double p_x, double p_y){
 	pt=p_t;
 }
 
-void ElementaryParticle::bosonDecay(ElementaryParticle *p1, ElementaryParticle *p2){
+void ElementaryParticle::bosonDecay(ElementaryParticle *decayParticle_1, ElementaryParticle *decayParticle_2){
 	double probability;
-	if(boson==0)
+	if(boson==0){
 		cout << "Boson decay is not possible, particle is not a boson!" << endl;
-	probability=rand()%100;
-	if(probability<=21.4){ //W bosons
-		cout << "W boson decay" << endl;
 	}
-	else if(probability>21.4 && probability<=27.8){ //tau leptons
-		cout << "Tau leptons decay" << endl;
-	}
-	else if(probability>27.8 && probability<=30.4){ //Z bosons
-		cout << "Z bosons decay" << endl;
-	}
-	else{ //b quarks
-		cout << "B quarks decay" << endl;
+	else{
+		probability=rand()%100;
+		if(probability<=21.4){ //W bosons
+			cout << "W boson decay" << endl;
+			
+			//names and masses
+			decayParticle_1->nameOfParticle="W boson";
+			decayParticle_2->nameOfParticle="W boson";
+			decayParticle_1->massOfParticle=80.38;
+			decayParticle_2->massOfParticle=80.38;
+			
+			//setting fourvector momenta randomly for decayParticle_1
+			decayParticle_1->px=(rand()%100)*1.0/100*px; //ide jos /100 jer zelim u decimalnom zapisu postotak, a ne 7%
+			decayParticle_1->py=(rand()%100)*1.0/100*py;
+			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
+			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			
+			//setting fourvector momenta randomly for decayParticle_2
+			decayParticle_2->px=px-decayParticle_1->px;
+			decayParticle_2->py=py-decayParticle_1->py;
+			decayParticle_2->pz=pz-decayParticle_1->pz;
+			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+		}
+		else if(probability>21.4 && probability<=27.8){ //tau leptons
+			cout << "Tau leptons decay" << endl;
+			
+			//names and masses
+			decayParticle_1->nameOfParticle="Tau lepton";
+			decayParticle_2->nameOfParticle="Tau lepton";
+			decayParticle_1->massOfParticle=1.776;
+			decayParticle_2->massOfParticle=1.776;
+			
+			//setting fourvector momenta randomly for decayParticle_1
+			decayParticle_1->px=(rand()%100)*1.0/100*px; //ide jos /100 jer zelim u decimalnom zapisu postotak, a ne 7%
+			decayParticle_1->py=(rand()%100)*1.0/100*py;
+			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
+			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			
+			//setting fourvector momenta randomly for decayParticle_2
+			decayParticle_2->px=px-decayParticle_1->px;
+			decayParticle_2->py=py-decayParticle_1->py;
+			decayParticle_2->pz=pz-decayParticle_1->pz;
+			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+		}
+		else if(probability>27.8 && probability<=30.4){ //Z bosons
+			cout << "Z bosons decay" << endl;
+			
+			//names and masses
+			decayParticle_1->nameOfParticle="Z boson";
+			decayParticle_2->nameOfParticle="Z boson";
+			decayParticle_1->massOfParticle=91.19;
+			decayParticle_2->massOfParticle=91.19;
+			
+			//setting fourvector momenta randomly for decayParticle_1
+			decayParticle_1->px=(rand()%100)*1.0/100*px; //ide jos /100 jer zelim u decimalnom zapisu postotak, a ne 7%
+			decayParticle_1->py=(rand()%100)*1.0/100*py;
+			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
+			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			
+			//setting fourvector momenta randomly for decayParticle_2
+			decayParticle_2->px=px-decayParticle_1->px;
+			decayParticle_2->py=py-decayParticle_1->py;
+			decayParticle_2->pz=pz-decayParticle_1->pz;
+			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+		}
+		else{ //b quarks
+			cout << "B quarks decay" << endl;
+			
+			//names and masses
+			decayParticle_1->nameOfParticle="b quark";
+			decayParticle_2->nameOfParticle="anti-b quark";
+			decayParticle_1->massOfParticle=4.18;
+			decayParticle_2->massOfParticle=4.18;
+			
+			//setting fourvector momenta randomly for decayParticle_1
+			decayParticle_1->px=(rand()%100)*1.0/100*px; //ide jos /100 jer zelim u decimalnom zapisu postotak, a ne 7%
+			decayParticle_1->py=(rand()%100)*1.0/100*py;
+			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
+			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			
+			//setting fourvector momenta randomly for decayParticle_2
+			decayParticle_2->px=px-decayParticle_1->px;
+			decayParticle_2->py=py-decayParticle_1->py;
+			decayParticle_2->pz=pz-decayParticle_1->pz;
+			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+		}
+		cout << "Name of the decayParticle_1: " << decayParticle_1->nameOfParticle << "\t Px: " << decayParticle_1->px << "\t Py: " << decayParticle_1->py << "\t Pz: " << decayParticle_1->pz << "\t Energy: " << decayParticle_1->E << endl;
+		cout << "Name of the decayParticle_2: " << decayParticle_2->nameOfParticle << "\t Px: " << decayParticle_2->px << "\t Py: " << decayParticle_2->py << "\t Pz: " << decayParticle_2->pz << "\t Energy: " << decayParticle_2->E << endl;
 	}
 	
 	
