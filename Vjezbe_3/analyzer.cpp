@@ -10,6 +10,8 @@ int main (){
 	srand(time(NULL));
 	int i;
 	double p_x, p_y, p_z, E_;
+	char filename[]="Analysis.txt";
+		remove(filename); //prije unosenja podataka u datoteke, brisemo prethodne
 	
 	/*ElementaryParticle *Z;
 	Z=new ElementaryParticle("Z boson",92,1);
@@ -31,22 +33,35 @@ int main (){
 	top->printInfo();
 	//top->bosonDecay(0); za zad2. A)*/
 	
-	ElementaryParticle *Higgs;
+	
+	//ZD3.d)
+	/*ElementaryParticle *Higgs;
 	Higgs=new ElementaryParticle("Higgs boson",125,1);
 	Higgs->set_fourvector_momentum(100,200,300,125);
-	
-	
 	ElementaryParticle *decayParticle_1, *decayParticle_2;
 	decayParticle_1= new ElementaryParticle();
 	decayParticle_2= new ElementaryParticle();
-	Higgs->bosonDecay(decayParticle_1,decayParticle_2);
+	Higgs->bosonDecay(decayParticle_1,decayParticle_2);*/
 	
-	/*for(i=1;i<=10000;i++){
+	
+	ElementaryParticle *Higgs;
+	ElementaryParticle *decayParticle_1, *decayParticle_2;
+	decayParticle_1= new ElementaryParticle();
+	decayParticle_2= new ElementaryParticle();
+	for(i=1;i<=10000;i++){
+		//setting components of momenta to random values
+		p_x=-100+(100-(-100))*(rand()%1000)/1000;
+		p_y=-100+(100-(-100))*(rand()%1000)/1000;
+		p_z=-100+(100-(-100))*(rand()%1000)/1000;
 		
-		decayParticle_1= new ElementaryParticle();
-		decayParticle_2= new ElementaryParticle();
-		Higgs->bosonDecay(i, decayParticle_1,decayParticle_2);
-	}*/
+		Higgs=new ElementaryParticle("Higgs boson",125,1);
+		
+		Higgs->set_fourvector_momentum(p_x, p_y, p_z, 125);
+		Higgs->bosonDecay(i,decayParticle_1,decayParticle_2);
+		delete Higgs;
+	}
 	
+	delete decayParticle_1;
+	delete decayParticle_2;
 	return 0;
 }

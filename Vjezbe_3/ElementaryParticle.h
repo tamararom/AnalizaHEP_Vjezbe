@@ -25,7 +25,7 @@ class ElementaryParticle {
 	double transversal_momentum (double p_x, double p_y);
 	
 	//bozon raspad
-	void bosonDecay(ElementaryParticle *decayParticle_1, ElementaryParticle *decayParticle_2);
+	void bosonDecay(int i, ElementaryParticle *decayParticle_1, ElementaryParticle *decayParticle_2);
 	//dodjeljivanje klasi
 	void printInfo();
 };
