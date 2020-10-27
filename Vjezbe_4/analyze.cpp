@@ -11,7 +11,8 @@ int main (){
 	Analyzer *analysis;
 	
 	analysis=new Analyzer();
-	analysis->data();
+	//analysis->data();
+	analysis->ConvertTxtToRootFile();
 		
 	return 0;
 }
