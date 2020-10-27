@@ -56,8 +56,8 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			//cout << "W boson decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="W boson     ";
-			decayParticle_2->nameOfParticle="W boson     ";
+			decayParticle_1->nameOfParticle="W-boson";
+			decayParticle_2->nameOfParticle="W-boson";
 			decayParticle_1->massOfParticle=80.38;
 			decayParticle_2->massOfParticle=80.38;
 			
@@ -66,19 +66,21 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			decayParticle_1->py=(rand()%100)*1.0/100*py;
 			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
 			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			decayParticle_1->transversal_momentum(decayParticle_1->px,decayParticle_1->py);
 			
 			//setting fourvector momenta randomly for decayParticle_2
 			decayParticle_2->px=px-decayParticle_1->px;
 			decayParticle_2->py=py-decayParticle_1->py;
 			decayParticle_2->pz=pz-decayParticle_1->pz;
 			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+			decayParticle_2->transversal_momentum(decayParticle_2->px,decayParticle_2->py);
 		}
 		else if(probability>21.4 && probability<=27.8){ //tau leptons
 			//cout << "Tau leptons decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="Tau lepton  ";
-			decayParticle_2->nameOfParticle="Tau lepton  ";
+			decayParticle_1->nameOfParticle="Tau-lepton";
+			decayParticle_2->nameOfParticle="Tau-lepton";
 			decayParticle_1->massOfParticle=1.776;
 			decayParticle_2->massOfParticle=1.776;
 			
@@ -87,19 +89,21 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			decayParticle_1->py=(rand()%100)*1.0/100*py;
 			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
 			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			decayParticle_1->transversal_momentum(decayParticle_1->px,decayParticle_1->py);
 			
 			//setting fourvector momenta randomly for decayParticle_2
 			decayParticle_2->px=px-decayParticle_1->px;
 			decayParticle_2->py=py-decayParticle_1->py;
 			decayParticle_2->pz=pz-decayParticle_1->pz;
 			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+			decayParticle_2->transversal_momentum(decayParticle_2->px,decayParticle_2->py);
 		}
 		else if(probability>27.8 && probability<=30.4){ //Z bosons
 			//cout << "Z bosons decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="Z boson     ";
-			decayParticle_2->nameOfParticle="Z boson     ";
+			decayParticle_1->nameOfParticle="Z-boson";
+			decayParticle_2->nameOfParticle="Z-boson";
 			decayParticle_1->massOfParticle=91.19;
 			decayParticle_2->massOfParticle=91.19;
 			
@@ -108,19 +112,22 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			decayParticle_1->py=(rand()%100)*1.0/100*py;
 			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
 			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			decayParticle_1->transversal_momentum(decayParticle_1->px,decayParticle_1->py);
 			
 			//setting fourvector momenta randomly for decayParticle_2
 			decayParticle_2->px=px-decayParticle_1->px;
 			decayParticle_2->py=py-decayParticle_1->py;
 			decayParticle_2->pz=pz-decayParticle_1->pz;
 			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+			decayParticle_2->transversal_momentum(decayParticle_2->px,decayParticle_2->py);
+	
 		}
 		else{ //b quarks
 			//cout << "B quarks decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="b quark     ";
-			decayParticle_2->nameOfParticle="anti b quark";
+			decayParticle_1->nameOfParticle="b-quark";
+			decayParticle_2->nameOfParticle="anti-b-quark";
 			decayParticle_1->massOfParticle=4.18;
 			decayParticle_2->massOfParticle=4.18;
 			
@@ -129,19 +136,21 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			decayParticle_1->py=(rand()%100)*1.0/100*py;
 			decayParticle_1->pz=(rand()%100)*1.0/100*pz;
 			decayParticle_1->set_fourvector_momentum(decayParticle_1->px,decayParticle_1->py,decayParticle_1->pz,decayParticle_1->massOfParticle);
+			decayParticle_1->transversal_momentum(decayParticle_1->px,decayParticle_1->py);
 			
 			//setting fourvector momenta randomly for decayParticle_2
 			decayParticle_2->px=px-decayParticle_1->px;
 			decayParticle_2->py=py-decayParticle_1->py;
 			decayParticle_2->pz=pz-decayParticle_1->pz;
 			decayParticle_2->set_fourvector_momentum(decayParticle_2->px,decayParticle_2->py,decayParticle_2->pz,decayParticle_2->massOfParticle);
+			decayParticle_2->transversal_momentum(decayParticle_2->px,decayParticle_2->py);
 		}
 		//cout << i << decayParticle_1->nameOfParticle << "\t" << decayParticle_1->px << "\t" << decayParticle_1->py << "\t" << decayParticle_1->pz << "\t\n" << decayParticle_1->E << endl;
 		//cout << i << decayParticle_2->nameOfParticle << "\t" << decayParticle_2->px << "\t" << decayParticle_2->py << "\t" << decayParticle_2->pz << "\t\n" << decayParticle_2->E << endl;
 		ofstream file;
 		file.open("Analysis.txt", ios_base::app); //app=append da dodam iduce podatke u petlji
-		file << i << "\t" << decayParticle_1->nameOfParticle << "\t" << decayParticle_1->px << "\t" << decayParticle_1->py << "\t" << decayParticle_1->pz << "\t" << decayParticle_1->E << endl;
-		file << i << "\t" << decayParticle_2->nameOfParticle << "\t" << decayParticle_2->px << "\t" << decayParticle_2->py << "\t" << decayParticle_2->pz << "\t" << decayParticle_2->E << endl;
+		file << i << " " << decayParticle_1->nameOfParticle << " " << decayParticle_1->px << " " << decayParticle_1->py << " " << decayParticle_1->pz << " " << decayParticle_1->pt << " " << decayParticle_1->E << " " << decayParticle_2->nameOfParticle << " " << decayParticle_2->px << " " << decayParticle_2->py << " " << decayParticle_2->pz << " " << decayParticle_2->pt << " " << decayParticle_2->E << endl;
+		//file << i << "\t" << decayParticle_2->nameOfParticle << "\t" << decayParticle_2->px << "\t" << decayParticle_2->py << "\t" << decayParticle_2->pz << "\t" << decayParticle_2->E << endl;
 		file.close();
 	}
 }

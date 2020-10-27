@@ -57,6 +57,7 @@ int main (){
 		Higgs=new ElementaryParticle("Higgs boson",125,1);
 		
 		Higgs->set_fourvector_momentum(p_x, p_y, p_z, 125);
+		Higgs->transversal_momentum(p_x,p_y);
 		Higgs->bosonDecay(i,decayParticle_1,decayParticle_2);
 		delete Higgs;
 	}
