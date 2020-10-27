@@ -56,8 +56,8 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			//cout << "W boson decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="W-boson";
-			decayParticle_2->nameOfParticle="W-boson";
+			decayParticle_1->nameOfParticle="W";
+			decayParticle_2->nameOfParticle="W";
 			decayParticle_1->massOfParticle=80.38;
 			decayParticle_2->massOfParticle=80.38;
 			
@@ -79,8 +79,8 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			//cout << "Tau leptons decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="Tau-lepton";
-			decayParticle_2->nameOfParticle="Tau-lepton";
+			decayParticle_1->nameOfParticle="T";
+			decayParticle_2->nameOfParticle="T";
 			decayParticle_1->massOfParticle=1.776;
 			decayParticle_2->massOfParticle=1.776;
 			
@@ -102,8 +102,8 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			//cout << "Z bosons decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="Z-boson";
-			decayParticle_2->nameOfParticle="Z-boson";
+			decayParticle_1->nameOfParticle="Z";
+			decayParticle_2->nameOfParticle="Z";
 			decayParticle_1->massOfParticle=91.19;
 			decayParticle_2->massOfParticle=91.19;
 			
@@ -126,8 +126,8 @@ void ElementaryParticle::bosonDecay(int i, ElementaryParticle *decayParticle_1, 
 			//cout << "B quarks decay" << endl;
 			
 			//names and masses
-			decayParticle_1->nameOfParticle="b-quark";
-			decayParticle_2->nameOfParticle="anti-b-quark";
+			decayParticle_1->nameOfParticle="b";
+			decayParticle_2->nameOfParticle="b";
 			decayParticle_1->massOfParticle=4.18;
 			decayParticle_2->massOfParticle=4.18;
 			
