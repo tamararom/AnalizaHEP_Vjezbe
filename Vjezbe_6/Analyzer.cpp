@@ -61,12 +61,10 @@ void Analyzer::Loop()
 void Analyzer::PlotHistogram()
 {
 	TH1F *histo0, *histo1, *histo2, *histo3; //CANVAS 1,1
-	TH1F *histo4;
-	
 	//############## VJ6 ZD 2 ##############
-	/*TH1F *histo02, *histo12, *histo22, *histo32; //CANVAS 1,2
+	TH1F *histo02, *histo12, *histo22, *histo32; //CANVAS 1,2
 	TH1F *histo03, *histo13, *histo23, *histo33; //CANVAS 1,3
-	TH1F *histo04, *histo14, *histo24, *histo34; //CANVAS 1,4*/
+	TH1F *histo04, *histo14, *histo24, *histo34; //CANVAS 1,4
 	
 	//TRANSVERSAL MOMENTA
 	histo0=	new TH1F("LepPt1", "Transversal momentum", 50,0,140); //prvi broj je koliko ima binova?
@@ -80,7 +78,7 @@ void Analyzer::PlotHistogram()
 	histo2=	new TH1F("LepPt3", "Transversal momentum", 50,0,140);
 	histo3=	new TH1F("LepPt4", "Transversal momentum", 50,0,140);
 	
-	/* //############## VJ6 ZD 2 ##############
+	 //############## VJ6 ZD 2 ##############
 	//PSEUDORAPIDITY
 	histo02=new TH1F("LepEta1", "Pseudorapidity", 80,-4,4);
 	histo12=new TH1F("LepEta2", "Pseudorapidity", 80,-4,4);
@@ -101,10 +99,12 @@ void Analyzer::PlotHistogram()
 	histo24=new TH1F("LepBDT3", " ", 30,0,10);
 	histo34=new TH1F("LepBDT4", " ", 30,0,10);
 	//BIN SIZE JE 0.33 GEV
-	*/
 	
-	//HIGGS #############################
-	histo4=new TH1F("4leptons", "Mass reconstruction", 25, 90,140);
+	
+	//#############################  VJ6. ZD3 I ZD4 ############################# 
+	/*HIGGS ############################# 
+	//TH1F *histo4;
+	//histo4=new TH1F("4leptons", "Mass reconstruction", 25, 90,140);
 	//AKO JE BIN SIZE 2GEV A INTERVAL 50 ONDA NAM JE BR BINOVA 2*X=50, X=25
 	
 	TLorentzVector *particle0;
@@ -121,7 +121,7 @@ void Analyzer::PlotHistogram()
 	particle3=new TLorentzVector();
 	Z1=new TLorentzVector();
 	Z2=new TLorentzVector();
-	Higgs=new TLorentzVector();
+	Higgs=new TLorentzVector();*/
 	
 	double w, L;
 	L=137;
@@ -146,7 +146,7 @@ void Analyzer::PlotHistogram()
 	  
 	  //############ VJ6.ZAD2 ###########
 	  //TRANSVERSAL MOMENTA
-	  /*histo0->Fill(LepPt->at(0),w); //u zagrade cime ga zelim fillovat
+	  histo0->Fill(LepPt->at(0),w); //u zagrade cime ga zelim fillovat
 	  histo1->Fill(LepPt->at(1),w);
 	  histo2->Fill(LepPt->at(2),w);
 	  histo3->Fill(LepPt->at(3),w);
@@ -167,9 +167,11 @@ void Analyzer::PlotHistogram()
 	  histo04->Fill(LepBDT->at(0),w);
 	  histo14->Fill(LepBDT->at(1),w);
 	  histo24->Fill(LepBDT->at(2),w);
-	  histo34->Fill(LepBDT->at(3),w);*/
+	  histo34->Fill(LepBDT->at(3),w);
 	  
-	  particle0->SetPtEtaPhiM(LepPt->at(0),LepEta->at(0),LepPhi->at(0),0);
+	  
+	  //########## REKONSTRUKCIJA HIGGSA
+	  /*particle0->SetPtEtaPhiM(LepPt->at(0),LepEta->at(0),LepPhi->at(0),0);
 	  particle1->SetPtEtaPhiM(LepPt->at(1),LepEta->at(1),LepPhi->at(1),0);
 	  particle2->SetPtEtaPhiM(LepPt->at(2),LepEta->at(2),LepPhi->at(2),0);
 	  particle3->SetPtEtaPhiM(LepPt->at(3),LepEta->at(3),LepPhi->at(3),0);
@@ -183,14 +185,14 @@ void Analyzer::PlotHistogram()
 	  //w=(L*1000*xsec*overallEventWeight)/histogram->GetBinContent(40);
 	  *Higgs=*Z1+*Z2;
 	  //histo4->Fill(Higgs->M()); //VJEZBE 6 ZADATAK 3
-	  histo4->Fill(Higgs->M(),w);
+	  histo4->Fill(Higgs->M(),w);*/
 	  
    }
    
 	//stvaram platno za crtanje histograma
 	
 	//##### VJEZBE 6 ZADATAK 2 ########
-	/*TCanvas *canvas1;
+	TCanvas *canvas1;
 	canvas1=new TCanvas("canvas1", "canvas1", 1600, 900); //dimenzija pixela x i y
 	
 	//c1->cd(); ako zelim da ovaj bude u kojeg ce crtat jer Draw po defaultu crta u zadnje stvoreni Canvas
@@ -225,7 +227,7 @@ void Analyzer::PlotHistogram()
 	histo02->Draw("HISTO same");
 	histo22->Draw("HISTO same");
 	histo32->GetXaxis()->SetTitle("Pseudorapidity");
-	histo32->GetYaxis()->SetTitle("Events/0.1Gev");
+	histo32->GetYaxis()->SetTitle("Events/0.1");
 	histo02->SetLineColor(kRed);
 	histo02->SetFillColor(kRed);
 	histo12->SetLineColor(kBlue);
@@ -247,7 +249,7 @@ void Analyzer::PlotHistogram()
 	histo33->Draw("HISTO same");
 	histo13->Draw("HISTO same");
 	histo03->GetXaxis()->SetTitle("Azimuthal angle [rad] ");
-	histo03->GetYaxis()->SetTitle("Events/0.13GeV");
+	histo03->GetYaxis()->SetTitle("Events/0.13rad");
 	histo03->SetLineColor(kRed);
 	histo03->SetFillColor(kRed);
 	histo13->SetLineColor(kBlue);
@@ -268,7 +270,7 @@ void Analyzer::PlotHistogram()
 	histo34->Draw("HISTO same");
 	histo14->Draw("HISTO same");
 	histo04->GetXaxis()->SetTitle("BDT");
-	histo04->GetYaxis()->SetTitle("Events/0.33GeV");
+	histo04->GetYaxis()->SetTitle("Events/0.33");
 	histo04->SetLineColor(kRed);
 	histo04->SetFillColor(kRed);
 	histo14->SetLineColor(kBlue);
@@ -281,16 +283,16 @@ void Analyzer::PlotHistogram()
     legend4->AddEntry(histo14,"Second lepton");
 	legend4->AddEntry(histo24,"Third lepton");
 	legend4->AddEntry(histo34,"Fourth lepton");
-    legend4->Draw();*/
+    legend4->Draw();
 	
 	
 	//spremam histogram u razlicite formate
-	/*canvas1->SaveAs("VJ6_zd2.pdf");
+	canvas1->SaveAs("VJ6_zd2.pdf");
 	canvas1->SaveAs("VJ6_zd2.png");
-	canvas1->SaveAs("VJ6_zd2.root");*/
+	canvas1->SaveAs("VJ6_zd2.root");
 	
 	//#####################VJEZBE 6 ZADATAK 3 ######################################
-	TCanvas *canvas2;
+	/*TCanvas *canvas2;
 	canvas2=new TCanvas("canvas2", "canvas2", 800,1000);
 	histo4->Draw("HISTO");
 	//histo4->Draw(); VJ6.ZAD3.
@@ -306,6 +308,6 @@ void Analyzer::PlotHistogram()
     legend->AddEntry(histo4,"gluon-gluon fusion");
 	legend->Draw();
 	
-	canvas2->SaveAs("VJ6_zd4.pdf");
+	canvas2->SaveAs("VJ6_zd4.pdf");*/
 }
 
