@@ -182,8 +182,8 @@ void Analyzer::PlotHistogram()
 	  //*1000 JER JE JEDNO U PIKO A DRUGO U FEMTOBARNIMA NA -1
 	  //w=(L*1000*xsec*overallEventWeight)/histogram->GetBinContent(40);
 	  *Higgs=*Z1+*Z2;
-	  histo4->Fill(Higgs->M()); //VJEZBE 6 ZADATAK 3
-	  //histo4->Fill(Higgs->M(),w);
+	  //histo4->Fill(Higgs->M()); //VJEZBE 6 ZADATAK 3
+	  histo4->Fill(Higgs->M(),w);
 	  
    }
    
@@ -292,20 +292,20 @@ void Analyzer::PlotHistogram()
 	//#####################VJEZBE 6 ZADATAK 3 ######################################
 	TCanvas *canvas2;
 	canvas2=new TCanvas("canvas2", "canvas2", 800,1000);
-	//histo4->Draw("HISTO");
-	histo4->Draw();
+	histo4->Draw("HISTO");
+	//histo4->Draw(); VJ6.ZAD3.
 	
 	histo4->GetXaxis()->SetTitle("mass_{4l} [GeV]");
 	histo4->GetYaxis()->SetTitle("Events/2GeV");
 	
-	//cout << histo4->Integral() << endl;
+	cout << histo4->Integral() << endl;
 	
 	gStyle->SetOptStat(0000);
 	TLegend *legend = new TLegend(.75,.75,1.0,.95);  //x1,y1,x2,y2 are the coordinates of the Legend
-	//legend->SetHeader("Results of my simulation", "C"); //C for centering
+	legend->SetHeader("226.475 reconstructed Higgs bosons", "C"); //C for centering
     legend->AddEntry(histo4,"gluon-gluon fusion");
 	legend->Draw();
 	
-	canvas2->SaveAs("VJ6_zd3.pdf");
+	canvas2->SaveAs("VJ6_zd4.pdf");
 }
 
