@@ -1451,6 +1451,8 @@ public :
    TTree *tree;
    TH1F* histogram_signal;
    TH1F* histogram_background;
+   TH1F* histogram_signal_discriminator;
+   TH1F* histogram_background_discriminator;
 };
 
 #endif
@@ -1460,6 +1462,8 @@ Analyzer::Analyzer() : fChain(0)
 {
 	histogram_signal=new TH1F("ggH125", "signal", 50,70,170);
 	histogram_background= new TH1F("qqZZ", "background",50,70,170);
+	histogram_signal_discriminator=new TH1F("Kinematic discriminator", "Kinematic discriminator", 10,0,1);
+	histogram_background_discriminator=new TH1F("Kinematic discriminator2", "Kinematic discriminator2", 10,0,1);
    
   
 }

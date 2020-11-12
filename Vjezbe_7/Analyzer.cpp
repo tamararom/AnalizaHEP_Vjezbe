@@ -137,7 +137,7 @@ void Analyzer::PlotHistogram(TString path)
 	Z2=new TLorentzVector();
 	Higgs=new TLorentzVector();
 	
-	double w, L;
+	double w, L, signal_discriminator, background_discriminator;
 	L=137;
 	
 	if (fChain == 0) return;
@@ -193,6 +193,8 @@ void Analyzer::PlotHistogram(TString path)
 	  *Z1=*particle0+*particle1;
 	  *Z2=*particle2+*particle3;
 	  
+	 
+	  
 	  //cout << histogram->GetBinContent(40) << endl;
 	  
 	  //*1000 JER JE JEDNO U PIKO A DRUGO U FEMTOBARNIMA NA -1
@@ -201,9 +203,15 @@ void Analyzer::PlotHistogram(TString path)
 	  //histo4->Fill(Higgs->M()); //VJEZBE 6 ZADATAK 3
 	  if(path.Contains("ggH125")){
 	  histogram_signal->Fill(Higgs->M(),w);
+	  //c=1 za kinematickog diskriminatora signala
+	  signal_discriminator=1/(1+1*p_QQB_BKG_MCFM/p_GG_SIG_ghg2_1_ghz1_1_JHUGen);
+	  histogram_signal_discriminator->Fill(signal_discriminator);
 	  }
 	  if(path.Contains("qqZZ")){
 	  histogram_background->Fill(Higgs->M(),w);
+	  //c=70 za kinematickog diskriminatora pozadine
+	  background_discriminator=1/(1+70*p_QQB_BKG_MCFM/p_GG_SIG_ghg2_1_ghz1_1_JHUGen);
+	  histogram_background_discriminator->Fill(background_discriminator);
 	  }
 	  
    }
@@ -346,20 +354,40 @@ void Analyzer::PlotHistogram(TString path)
 void Analyzer::Drawing(){
 	TCanvas *canvas1;
 	canvas1=new TCanvas("canvas1", "canvas1", 1600, 900);
-	THStack *hstack= new THStack();
+	
+	//########## STAKIRANJE ########## 
+	//######### VJEZBA 7 ZD 2 #######
+	/*THStack *hstack= new THStack();
 	hstack->Add(histogram_background);
 	hstack->Add(histogram_signal);
 	hstack->Draw("HIST");
 	histogram_signal->SetFillColor(kRed);
 	histogram_background->SetFillColor(kBlue);
 	hstack->GetXaxis()->SetTitle("mass / GeV");
-	hstack->GetYaxis()->SetTitle("Events/2 GeV");
-	TLegend *legend = new TLegend(.75,.75,1.0,.95);  //x1,y1,x2,y2 are the coordinates of the Legend
-	legend->SetHeader("226.475 reconstructed Higgs bosons", "C"); //C for centering
-    legend->AddEntry(histogram_signal,"gluon-gluon fusion");
-	legend->AddEntry(histogram_background, "background");
+	hstack->GetYaxis()->SetTitle("Events/2 GeV");*/
+	
+	
+	//######## VJEZBA 7 ZD 3 #########
+	//NORMALIZACIJA HISTOGRAMA
+	histogram_signal_discriminator->Scale(1/histogram_signal_discriminator->Integral());
+	histogram_background_discriminator->Scale(1/histogram_background_discriminator->Integral());
+	
+	histogram_signal_discriminator->Draw("HISTO");
+	histogram_background_discriminator->Draw("HISTO same");
+	
+	//uredivanje histograma
+	histogram_signal_discriminator->SetLineColor(kRed);
+	histogram_background_discriminator->SetLineColor(kBlue);
+	histogram_signal_discriminator->GetXaxis()->SetTitle("Discriminator");
+	histogram_signal_discriminator->GetYaxis()->SetTitle("Events/0.1GeV");
+	
+	gStyle->SetOptStat(0000);
+	TLegend *legend = new TLegend(0.4,0.8,0.6,0.9);  //x1,y1,x2,y2 are the coordinates of the Legend
+	//legend->SetHeader("226.475 reconstructed Higgs bosons", "C"); //C for centering
+    legend->AddEntry(histogram_signal_discriminator,"Signal (fusion)");
+	legend->AddEntry(histogram_background_discriminator, "Background");
 	legend->Draw();
-	canvas1->SaveAs("VJ7_zd2.pdf");
+	canvas1->SaveAs("VJ7_zd3.png");
 	
 }
 
