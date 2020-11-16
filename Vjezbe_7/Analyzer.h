@@ -13,6 +13,7 @@
 #include <TFile.h>
 #include<THStack.h>
 
+
 //dodano
 #include <TH1F.h>
 #include <string>
@@ -20,6 +21,8 @@
 #include <stdlib.h>
 #include <vector> //ovdje izmjenjeno iz " "
 #include <iostream>
+#include <TGraph.h>
+#include <TH2F.h>
 
 // Header file for the classes stored in the TTree if any.
 
@@ -1453,6 +1456,8 @@ public :
    TH1F* histogram_background;
    TH1F* histogram_signal_discriminator;
    TH1F* histogram_background_discriminator;
+   TH2F* histogram_2D_signal;
+   TH2F* histogram_2D_background;
 };
 
 #endif
@@ -1462,9 +1467,10 @@ Analyzer::Analyzer() : fChain(0)
 {
 	histogram_signal=new TH1F("ggH125", "signal", 50,70,170);
 	histogram_background= new TH1F("qqZZ", "background",50,70,170);
-	histogram_signal_discriminator=new TH1F("Kinematic discriminator", "Kinematic discriminator", 10,0,1);
-	histogram_background_discriminator=new TH1F("Kinematic discriminator2", "Kinematic discriminator2", 10,0,1);
-   
+	histogram_signal_discriminator=new TH1F("Kinematic discriminator", "Kinematic discriminator", 1000,0,1);
+	histogram_background_discriminator=new TH1F("Kinematic discriminator2", "Kinematic discriminator2", 1000,0,1);
+    histogram_2D_signal=new TH2F("Signal histogram", "Mass vs KD",50,70,170,20,0,1); //broj binova x, raspon x, broj binova y, raspon y
+	histogram_2D_background=new TH2F("Background histogram", "Mass vs KD",50,70,170,20,0,1);
   
 }
 

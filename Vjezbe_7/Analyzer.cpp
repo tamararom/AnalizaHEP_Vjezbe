@@ -9,6 +9,9 @@
 #include <TLegend.h>
 #include <TLorentzVector.h>
 #include <vector>
+#include <TGraph.h>
+#include <TH2F.h>
+
 
 void Analyzer::Loop()
 {
@@ -140,6 +143,7 @@ void Analyzer::PlotHistogram(TString path)
 	double w, L, signal_discriminator, background_discriminator;
 	L=137;
 	
+	
 	if (fChain == 0) return;
 
    Long64_t nentries = fChain->GetEntriesFast();
@@ -205,13 +209,15 @@ void Analyzer::PlotHistogram(TString path)
 	  histogram_signal->Fill(Higgs->M(),w);
 	  //c=1 za kinematickog diskriminatora signala
 	  signal_discriminator=1/(1+1*p_QQB_BKG_MCFM/p_GG_SIG_ghg2_1_ghz1_1_JHUGen);
-	  histogram_signal_discriminator->Fill(signal_discriminator);
+	  histogram_signal_discriminator->Fill(signal_discriminator,w);
+	  histogram_2D_signal->Fill(Higgs->M(),signal_discriminator,w);
 	  }
 	  if(path.Contains("qqZZ")){
 	  histogram_background->Fill(Higgs->M(),w);
 	  //c=70 za kinematickog diskriminatora pozadine
 	  background_discriminator=1/(1+70*p_QQB_BKG_MCFM/p_GG_SIG_ghg2_1_ghz1_1_JHUGen);
-	  histogram_background_discriminator->Fill(background_discriminator);
+	  histogram_background_discriminator->Fill(background_discriminator,w);
+	  histogram_2D_background->Fill(Higgs->M(),background_discriminator,w);
 	  }
 	  
    }
@@ -318,7 +324,7 @@ void Analyzer::PlotHistogram(TString path)
 	
 	//spremam histogram u razlicite formate
 	if(path.Contains("ggH125")){
-	canvas1->SaveAs("VJ7_zd2_sg.pdf");}
+	canvas1->SaveAs("VJ7_zd1_sg.pdf");}
 	/*canvas1->SaveAs("VJ6_zd2.png");
 	canvas1->SaveAs("VJ6_zd2.root");*/
 	
@@ -344,7 +350,7 @@ void Analyzer::PlotHistogram(TString path)
 	
 	
 	/*if(path.Contains("qqZZ")){
-		canvas1->SaveAs("VJ7_zd2_bg.pdf");
+		canvas1->SaveAs("VJ7_zd1_bg.pdf");
 	}*/
 	
 	
@@ -354,6 +360,9 @@ void Analyzer::PlotHistogram(TString path)
 void Analyzer::Drawing(){
 	TCanvas *canvas1;
 	canvas1=new TCanvas("canvas1", "canvas1", 1600, 900);
+	canvas1->Divide(2,2);
+	TGraph *ROC = new TGraph();
+	
 	
 	//########## STAKIRANJE ########## 
 	//######### VJEZBA 7 ZD 2 #######
@@ -372,14 +381,37 @@ void Analyzer::Drawing(){
 	histogram_signal_discriminator->Scale(1/histogram_signal_discriminator->Integral());
 	histogram_background_discriminator->Scale(1/histogram_background_discriminator->Integral());
 	
+	for(int i=0; i<1000; i++)
+	{
+		float x=1.-histogram_background_discriminator->Integral(1,i+1);
+		float y=1.-histogram_signal_discriminator->Integral(1,i+1);
+		if ( x > 0.001 && y > 0.001 && x < 1.0 && y < 1.0) ROC->SetPoint(int(i),x,y);
+		
+	}
+	canvas1->cd(2);
+	ROC->SetMinimum(0.95);
+    ROC->SetMaximum(1.0);
+	ROC->Draw("ap");
+	ROC->GetXaxis()->SetLimits(0.00,0.05);
+	ROC->GetXaxis()->SetTitle("Background efficiency");
+	ROC->GetYaxis()->SetTitle("Signal efficiency");
+	ROC->SetTitle("ROC curve");
+	ROC->Draw("ap");
+	canvas1->Update();
+	
+
+	canvas1->cd(1);
+	histogram_signal_discriminator->Rebin(50);
+	histogram_background_discriminator->Rebin(50);
 	histogram_signal_discriminator->Draw("HISTO");
 	histogram_background_discriminator->Draw("HISTO same");
 	
 	//uredivanje histograma
 	histogram_signal_discriminator->SetLineColor(kRed);
 	histogram_background_discriminator->SetLineColor(kBlue);
-	histogram_signal_discriminator->GetXaxis()->SetTitle("Discriminator");
-	histogram_signal_discriminator->GetYaxis()->SetTitle("Events/0.1GeV");
+	histogram_signal_discriminator->GetXaxis()->SetTitle("D_{kin}");
+	histogram_signal_discriminator->GetYaxis()->SetTitle("Events/0.1");
+	
 	
 	gStyle->SetOptStat(0000);
 	TLegend *legend = new TLegend(0.4,0.8,0.6,0.9);  //x1,y1,x2,y2 are the coordinates of the Legend
@@ -387,7 +419,24 @@ void Analyzer::Drawing(){
     legend->AddEntry(histogram_signal_discriminator,"Signal (fusion)");
 	legend->AddEntry(histogram_background_discriminator, "Background");
 	legend->Draw();
-	canvas1->SaveAs("VJ7_zd3.png");
 	
+	
+	canvas1->cd(3);
+	histogram_2D_background->Draw("COLZ");
+	histogram_2D_background->SetStats(0);
+	histogram_2D_background->SetMinimum(-0.01);
+	histogram_2D_background->SetTitle("m_{4l} vs D_{kin} for background");
+	histogram_2D_background->GetXaxis()->SetTitle("m_{4l} [GeV]");
+	histogram_2D_background->GetYaxis()->SetTitle("D_{kin}");
+	
+	canvas1->cd(4);
+	histogram_2D_signal->Draw("COLZ");
+	histogram_2D_signal->SetStats(0);
+	histogram_2D_signal->SetMinimum(-0.01);
+	histogram_2D_signal->SetTitle("m_{4l} vs D_{kin} for signal");
+	histogram_2D_signal->GetXaxis()->SetTitle("m_{4l} [GeV]");
+	histogram_2D_signal->GetYaxis()->SetTitle("D_{kin}");
+	
+	canvas1->SaveAs("VJ7_zd3_zd5.png");
 }
 
