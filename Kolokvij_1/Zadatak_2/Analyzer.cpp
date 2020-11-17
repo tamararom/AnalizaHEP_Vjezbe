@@ -94,6 +94,7 @@ void Analyzer::Drawing(){
 	canvas->Divide(2);
 	
 	canvas->cd(1);
+	gPad->SetLeftMargin(0.15);
 	histo_ele_pt->Draw();
 	histo_ele_pt->GetXaxis()->SetTitle("p_{T} [GeV/c]");
 	histo_ele_pt->GetYaxis()->SetTitle("Events/ 2 GeV ");
@@ -101,6 +102,7 @@ void Analyzer::Drawing(){
 	gStyle->SetOptStat(0000);
 	
 	canvas->cd(2);
+	gPad->SetRightMargin(0.15);
 	histo_2D->Draw("COLZ");
 	histo_2D->SetTitle("Electron p_{T} vs. Electron ETA");
 	histo_2D->GetXaxis()->SetTitle("p_{T} / [Gev/c]");
