@@ -29,20 +29,20 @@ void PDFGenerator::GenerateQuadraticPDF(int N){
 	int u, a;
 	int included=0;
 	TH1F* histo;
-	histo=new TH1F("histo", "histo",50,-2,2);
+	histo=new TH1F("histo", "histo",50,-1.5,1);
 	
 	for(i=0;i<N;i++){
-		i=-1.+(1.-(-1.))*(rand()%100)/100; //generiranje broja od -1 do 1 do dvije decimale
+		//i=-1.+(1.-(-1.))*(rand()%100)/100; //generiranje broja od -1 do 1 do dvije decimale
 		//cout<<" "<<i<<endl; //provjera je li se generira broj u trazenom intervalu
 		
 		x=-1.+(1.-(-1.))*(rand()%100)/100;
-		u=0.+(3./4-(-0.))*(rand()%100)/100;
-		if(u<=((-3./4)*x*x+3./4)){
-			included=included+1;
-			a=(int)included/N;
-			histo->Fill(a);
+		//u=0.+(3./4-(-0.))*(rand()%100)/100;
+		if(x<=((-3./4)*x*x+3./4)){
+			//included=included+1;
+			//a=(int)included/N;
+			histo->Fill(x);
 		}
-		
+	
 	}
 	TCanvas *canvas;
 	canvas=new TCanvas("canvas", "canvas", 1600, 900);
