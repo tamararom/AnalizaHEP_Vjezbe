@@ -442,7 +442,7 @@ void Analyzer::Drawing(){
 	canvas1->SaveAs("VJ7_zd3_zd5.png");
 }
 
-void Analyzer::Fit(){ // ZANEMARI OVO 
+void Analyzer::Fit(){  
 	TCanvas *canvas2;
 	canvas2=new TCanvas("canvas2", "canvas2", 1600, 900);
 	canvas2->Divide(2);
@@ -452,6 +452,10 @@ void Analyzer::Fit(){ // ZANEMARI OVO
 	TF1 *fsum;
 	f1=new TF1 ("f1", "[0]+[1]*x+[2]*x*x", 110,150);
 	f2=new TF1 ("f2", "([0]*[1])/((x*x-[2]*[2])*(x*x-[2]*[2])+0.25*[1]*[1])",110,150);
+	//ovdje smo prvo unosili proizvoljne parametre
+	//zatim smo na drugu stranu canvasa dodali FIT koji nam je s SetOptFit dao rezultate parametara po fitu
+	//te parametre onda stavimo u pocetne vrijednosti
+	//defaultno se podaci odreduju preko chi-square fita
 	f1->SetParameter(0,51.81); //A
 	f1->SetParameter(1,-0.6214); //B
 	f1->SetParameter(2,0.002451); //C
@@ -468,30 +472,95 @@ void Analyzer::Fit(){ // ZANEMARI OVO
 	fsum->SetParameter(3, 20410);
 	fsum->SetParName(3,"D");
 	fsum->SetParameter(4,829.9);
-	fsum->SetParName(4,"gamma");
+	fsum->SetParName(4,"#Gamma");
 	fsum->SetParameter(5,124.4);
-	fsum->SetParName(5,"mass");
-	canvas2->cd(1);
-	fsum->SetLineColor(kBlack);
-	fsum->Draw();
-	f1->SetLineColor(kBlue);
-	f1->Draw("same");
-	f2->Draw("same");
-	
+	fsum->SetParName(5,"M");
+
 
 	
 	canvas2->cd(2);
+	//gPad->SetRightMargin(0.15);
 	histo_sum->Add(histogram_signal);
 	histo_sum->Add(histogram_background);
 	histo_sum->GetXaxis()->SetRangeUser(110.0,150.0);
+	histo_sum->GetYaxis()->SetRangeUser(0.,120.0);
+	//histo_sum->GetXaxis()->SetTitle("Mass [GeV]");
+	//histo_sum->GetYaxis()->SetTitle("Events/2GeV");
+	histo_sum->SetTitle("Reconstructed mass; Mass [GeV]; Events/2GeV");
 	histo_sum->Fit(fsum);
 	
 	gStyle->SetOptFit();
-	histo_sum->Draw();
+	histo_sum->Draw("pe1x0");
 	
-
+	canvas2->cd(1);
+	gPad->SetLeftMargin(0.2);
+	fsum->GetYaxis()->SetRangeUser(0.,120.0);
+	f1->GetYaxis()->SetRangeUser(0.,120.0);
+	f2->GetYaxis()->SetRangeUser(0.,120.0);
+	fsum->GetXaxis()->SetTitle("Mass [GeV]");
+	fsum->GetYaxis()->SetTitle("Events/2GeV");
+	fsum->SetTitle("BW+Q");
+	f1->GetXaxis()->SetTitle("Mass [GeV]");
+	f1->GetYaxis()->SetTitle("Events/2GeV");
+	f2->GetXaxis()->SetTitle("Mass [GeV]");
+	f2->GetYaxis()->SetTitle("Events/2GeV");
+	fsum->SetLineColor(kRed);
+	f1->SetLineColor(kBlue);
+	f2->SetLineColor(kGreen);
+	//f2->SetTitle("BW+Q; Mass [GeV]; Events/2GeV");
+	/*f1->GetXaxis()->SetTitle("Mass [GeV]");
+	f1->GetYaxis()->SetTitle("Events/2GeV");
+	f2->GetXaxis()->SetTitle("Mass [GeV]");
+	f2->GetYaxis()->SetTitle("Events/2GeV");*/
+	fsum->Draw();
+	f1->Draw("SAME");
+	f2->Draw("SAME");
+	
+	TLegend *legend1;
+	legend1=new TLegend(0.7,0.7,0.9,0.9);
+	legend1->AddEntry(f2, "Breit-Wigner", "l");
+	legend1->AddEntry(f1, "Quadratic function","l");
+	legend1->AddEntry(fsum,"Total function","l");
+	legend1->Draw();
 	
 	canvas2->SaveAs("vj8_zd1.png");
 	
 }
+
+void Analyzer::FitMaxLike(){
+	TCanvas *canvas3;
+	canvas3=new TCanvas("canvas3","canvas3",1600,900);
+	
+	TF1* BW2Q;
+	BW2Q=new TF1("BW2+Q","([6]*[7])/((x*x-[8]*[8])*(x*x-[8]*[8])+0.25*[7]*[7])+([0]+[1]*x+[2]*x*x+([3]*[4])/((x*x-[5]*[5])*(x*x-[5]*[5])+0.25*[4]*[4]))", 70,170);
+	BW2Q->SetParameter(0,-21.26);
+	BW2Q->SetParName(0,"A");
+	BW2Q->SetParameter(1,0.342);
+	BW2Q->SetParName(1,"B");
+	BW2Q->SetParameter(2,-0.0007425);
+	BW2Q->SetParName(2,"C");
+	BW2Q->SetParameter(3, 2.263e+04);
+	BW2Q->SetParName(3,"D_{signal}");
+	BW2Q->SetParameter(4,941.5);
+	BW2Q->SetParName(4,"#Gamma_{signal}");
+	BW2Q->SetParameter(5,124.4);
+	BW2Q->SetParName(5,"M_{signal}");
+	BW2Q->SetParameter(6,3.885e+04);
+	BW2Q->SetParName(6,"D_{background}");
+	BW2Q->SetParameter(7,797.3);
+	BW2Q->SetParName(7,"#Gamma_{background}");
+	BW2Q->SetParameter(8,90.79);
+	BW2Q->SetParName(8,"M_{background}");
+	
+	histogram_ML->Add(histogram_signal);
+	histogram_ML->Add(histogram_background);
+	histogram_ML->SetTitle("Reconstructed mass; Mass [GeV]; Events/2GeV");
+	histogram_ML->Fit(BW2Q, "l");
+	gStyle->SetOptFit();
+	histogram_ML->Draw("pe1x0");
+	
+	canvas3->SaveAs("vj8_z2.png");
+	
+}
+
 

@@ -23,6 +23,7 @@ int main(){
 	//analysis->Drawing();
 	
 	analysis->Fit();
+	analysis->FitMaxLike();
 	
 	
 	return 0;

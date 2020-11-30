@@ -1450,6 +1450,7 @@ public :
    virtual void PlotHistogram(TString path); //ovo je dodano naknadno
    virtual void Drawing();
    virtual void Fit();
+   virtual void FitMaxLike();
    public:
    TH1F* histogram;
    TTree *tree;
@@ -1460,6 +1461,7 @@ public :
    TH2F* histogram_2D_signal;
    TH2F* histogram_2D_background;
    TH1F *histo_sum;
+   TH1F* histogram_ML;
 };
 
 #endif
@@ -1469,7 +1471,8 @@ Analyzer::Analyzer() : fChain(0)
 {
 	histogram_signal=new TH1F("ggH125", "signal", 50,70,170);
 	histogram_background= new TH1F("qqZZ", "background",50,70,170);
-	histo_sum=new TH1F("histo_sum", "histo_sum", 50,70,170);
+	histo_sum=new TH1F("Reconstruction", "Reconstruction", 50,70,170);
+	histogram_ML=new TH1F("Reconstruction (Maximum Likelihood)", "Reconstruction (Maximum Likelihood)", 50,70,170);
 	histogram_signal_discriminator=new TH1F("Kinematic discriminator", "Kinematic discriminator", 1000,0,1);
 	histogram_background_discriminator=new TH1F("Kinematic discriminator2", "Kinematic discriminator2", 1000,0,1);
     histogram_2D_signal=new TH2F("Signal histogram", "Mass vs KD",50,70,170,20,0,1); //broj binova x, raspon x, broj binova y, raspon y
