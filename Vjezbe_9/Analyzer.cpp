@@ -84,15 +84,15 @@ void Analyzer::PlotHistogram(){
    
    f=new TF1("fit0", "[0]*(1/[1]*exp(-x/[1]))", 0,8); //ovako otprilike je islo za prvi zadatak
    //gdje je 0 konstanta koju trazimo isto, a 1 tau
-   f->SetParameter(0,1);
-   f->SetParName(0,"#tau");
-   f->SetParameter(1,200.3);
-   f->SetParName(1,"const");
-   double tau_1=1.237;
+   f->SetParameter(0,200.3);
+   f->SetParName(0,"const");
+   f->SetParameter(1,1);
+   f->SetParName(1,"#tau");
+   double tau_1=1.237; //da nam graf
+   sigma_fit = f->GetParError(1); //iz zd 1
    
    
-   //ZA TAU (tau_3=t_sum/nentries;) DOBIJEMO U ### ZD3: 1.23506, DOK JE U ZD1. BILA 1.237 ###
-   
+ 
    f2=new TF1("fit", "(1/x)*[1]*exp(-[0]/x)", 0,8); //LIKELIHOOD ### ZD2 ###
    f2->SetParameter(0,1);
    f2->SetParName(0,"time");
@@ -100,6 +100,10 @@ void Analyzer::PlotHistogram(){
    f2->SetParName(1,"const");
    //za ovo ne racunamo gresku jer je jedno mjerenje
    
+   
+   //****ZD 3*****
+   //ZA TAU (tau_3=t_sum/nentries;) DOBIJEMO U ### ZD3: 1.23506, DOK JE U ZD1. BILA 1.237 ###
+   sigma_analyt=sqrt(-pow(tau_3,3)/(nentries*tau_3-2*t_sum)); //iz zd 3
    
    TF1* f1; //MAXIMUM-LIKELIHOOD
    f1=new TF1("-2lnL", "-2*([0]*log(1/x)-[1]/x)",1.15,1.3); //-2lnL funkcija
@@ -114,10 +118,7 @@ void Analyzer::PlotHistogram(){
    min=f1->GetMinimum(1.15,1.3,1.E-10,100,false);
    sigma_low=tau_4-f1->GetX(min+1,1.15,1.24,1.E-10,100,false); 
    sigma_up=f1->GetX(min+1,1.24,1.3,1.E-10,100,false)-tau_4;
-   
-   
-   sigma_fit=f->GetParError(0); //iz zd 1
-   sigma_analyt=sqrt(-pow(tau_3,3)/(nentries*tau_3-2*t_sum)); //iz zd 3
+  
    
 
    cout << endl << "\t\t############### Results ###############" << endl;
@@ -199,9 +200,9 @@ void Analyzer::Bins(){ //######DODATNI ZADATAK#######
 	
 	graph->SetMinimum(1.2);
 	graph->SetMaximum(1.25);
-	graph->GetXaxis()->SetTitle("Bin size");
+	graph->GetXaxis()->SetTitle("Number of bins");
 	graph->GetYaxis()->SetTitle("#tau / s");
-	graph->SetTitle("Fitted #tau dependence of bin size");
+	graph->SetTitle("Fitted #tau dependence of bin number");
 	graph->Draw("AC*"); //graph draw optins
 	
 	canvas_x->SaveAs("ZD_extra.png");
