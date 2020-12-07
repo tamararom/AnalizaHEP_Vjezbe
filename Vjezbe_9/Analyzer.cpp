@@ -121,13 +121,7 @@ void Analyzer::PlotHistogram(){
   
    
 
-   cout << endl << "\t\t############### Results ###############" << endl;
-   cout << " method\t\t\t\t tau \t\tsigma" << endl;
-   cout << "----------------------------------------------------------------------------" << endl;
-   cout << "exponential fit\t\t\t" << tau_1 << "\t\t-+ " << sigma_fit << endl;
-   cout << "analytical result\t\t" << tau_3 << "\t\t-+ " << sigma_analyt << endl;
-   cout << "-2lnL\t\t\t\t" << tau_4 << "\t\t- " << sigma_low << "\t+ " << sigma_up << endl;
-  
+   
    
    f1->GetXaxis()->SetRangeUser(1.18,1.28);
    TCanvas *canvas1;
@@ -137,17 +131,24 @@ void Analyzer::PlotHistogram(){
    f1->SetTitle("Distribution; Time [s]; Events/0.5");
    f1->Draw();
    
-   /*gStyle->SetOptFit();
+   gStyle->SetOptFit();
    canvas1->cd(2);
    histogram_fit->Add(histogram);
    histogram_fit->Fit(f, "l");
    histogram_fit->SetTitle("Distribution; Time [s]; Events/0.2");
-   histogram_fit->Draw();*/
+   histogram_fit->Draw();
    
    
+   cout << endl << "\t\t############### Results ###############" << endl;
+   cout << " method\t\t\t\t tau \t\tsigma" << endl;
+   cout << "----------------------------------------------------------------------------" << endl;
+   cout << "exponential fit\t\t\t" << tau_1 << "\t\t-+ " << f->GetParError(1) << endl;
+   cout << "analytical result\t\t" << tau_3 << "\t\t-+ " << sigma_analyt << endl;
+   cout << "-2lnL\t\t\t\t" << tau_4 << "\t\t- " << sigma_low << "\t+ " << sigma_up << endl;
+  
    //5. zd na ruke pisemo i to moze pitat na usmenom a onda kod samo racuna
    
-   //canvas1->SaveAs("VJ9_ZD4.png");
+   //canvas1->SaveAs("VJ9_ZD5.png");
 	
 }
 
