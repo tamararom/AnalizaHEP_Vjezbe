@@ -56,12 +56,11 @@ double Analyzer::binomial(int r, int N, float p){
 	return binom;
 }
 
-double Analyzer::sum_bin_up(int m, int N1){ //upper limit
+double Analyzer::sum_bin_up(int m, int N1, double CL){ //upper limit
 	double sum1=0.,sum=0.;
 	int j, r1;
-	double p_plus, CL;
+	double p_plus;
 	
-	CL=0.6827;
 	p_plus=1.;
 	
 	
@@ -89,10 +88,10 @@ double Analyzer::sum_bin_up(int m, int N1){ //upper limit
 }
 
 
-double Analyzer::sum_bin_low(int m2, int N2){
+double Analyzer::sum_bin_low(int m2, int N2, double CL){
 	int r2;
 	double sum2=500.,sum3=0.;
-	double p_minus=1., CL=0.6827;
+	double p_minus=1.;
 	
 	if(m2==0){
 		return 0;
@@ -113,17 +112,17 @@ double Analyzer::sum_bin_low(int m2, int N2){
 	//cout << "prob low: " << p_minus << endl;
 }
 
-void Analyzer::CP_10(int N3){
+void Analyzer::CP_10(int N3, double CL){
 	double p_upper,p_lower;
 	int r;
 	for(r=0;r<=N3;r++){
-		p_upper=sum_bin_up(r,N3);
-		p_lower=sum_bin_low(r,N3);
+		p_upper=sum_bin_up(r,N3,CL);
+		p_lower=sum_bin_low(r,N3,CL);
 		cout << "Limits for r="<<r<<" successful outcomes out of 10 events is ["<<p_lower<<","<<p_upper<<"]"<<endl;
 	}
 }
 
-void Analyzer::draw_CP_belt(int N_){
+void Analyzer::draw_CP_belt(int N_,double CL){
 	TH1F *upper_h, *lower_h;
 	upper_h=new TH1F("upper","upper",N_,0,N_);
 	lower_h=new TH1F("lower","lower",N_,0,N_);
@@ -131,8 +130,8 @@ void Analyzer::draw_CP_belt(int N_){
 	int r;
 	double p_upper,p_lower;
 	for(r=0;r<=N_;r++){
-		p_upper=sum_bin_up(r,N_);
-		p_lower=sum_bin_low(r,N_);
+		p_upper=sum_bin_up(r,N_,CL);
+		p_lower=sum_bin_low(r,N_,CL);
 		//cout << "Limits for r="<<r<<" successful outcomes out of 10 events is ["<<p_lower<<","<<p_upper<<"]"<<endl;
 		upper_h->SetBinContent(r,p_upper);
 		lower_h->SetBinContent(r,p_lower);
@@ -155,11 +154,11 @@ void Analyzer::draw_CP_belt(int N_){
 	TLine *l1,*l2,*l3;
 	TLatex *t1,*t2,*t3;
 	
-	l1=new TLine(0,sum_bin_up(5,N_),5,sum_bin_up(5,N_));
-	l2=new TLine(0,sum_bin_low(5,N_),5,sum_bin_low(5,N_));
-	l3=new TLine(5,-0.01,5,sum_bin_up(5,N_));
-	t1=new TLatex(0.5*5,sum_bin_up(5,N_)+0.03,"p_{+}");
-	t2=new TLatex(0.5*5,sum_bin_low(5,N_)-0.03,"p_{-}");
+	l1=new TLine(0,sum_bin_up(5,N_,CL),5,sum_bin_up(5,N_,CL));
+	l2=new TLine(0,sum_bin_low(5,N_,CL),5,sum_bin_low(5,N_,CL));
+	l3=new TLine(5,-0.01,5,sum_bin_up(5,N_,CL));
+	t1=new TLatex(0.5*5,sum_bin_up(5,N_,CL)+0.03,"p_{+}");
+	t2=new TLatex(0.5*5,sum_bin_low(5,N_,CL)-0.03,"p_{-}");
 	t3=new TLatex(5-0.02,-0.1,"r");
 	
 	l1->SetLineColor(kRed);
@@ -191,5 +190,32 @@ void Analyzer::draw_CP_belt(int N_){
 	t3->Draw("same");
 	
 	canvas->SaveAs("C-P_belt.pdf");
+}
+
+void Analyzer::dice(int N, double CL){
+	//1 sigma = 0.6827
+	//2 sigma = 0.9544
+	srand(time(NULL));
+	int i, ii;
+	int counter, events=0;
+	double p_upper,p_lower;
+	
+	for(i=0;i<1000;i++){//1000 experiments
+		counter=0;
+		for(ii=0;ii<N;ii++){//10 throws
+			if((rand()%6+1)==6){
+				counter++;
+			}
+		}
+		p_upper=sum_bin_up(counter,N,CL);
+		p_lower=sum_bin_low(counter,N,CL);
+		//this is conf.int.for this CL, where is p_true?
+		//p_true is 1./6 
+		if(p_upper>=1./6 && p_lower<=1./6){
+			events++;
+		}
+	}
+	cout << "Number of experiments that contain p_true in 10 throws in confidence interval of " << CL << " is " << events << endl;
+	
 }
 

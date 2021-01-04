@@ -22,10 +22,10 @@ class Analyzer{
 	Analyzer();
 	double Fact(int N);
 	double binomial(int r, int N, float p);
-	double sum_bin_up(int m1, int N1);
-	double sum_bin_low(int m2, int N2);
-	void CP_10(int N3);
-	void draw_CP_belt(int N_);
-	
+	double sum_bin_up(int m1, int N1, double CL);
+	double sum_bin_low(int m2, int N2, double CL);
+	void CP_10(int N3,double CL);
+	void draw_CP_belt(int N_, double CL);
+	void dice(int N, double CL);
 	
 };
