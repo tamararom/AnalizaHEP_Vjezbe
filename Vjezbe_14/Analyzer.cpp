@@ -67,6 +67,10 @@ void Analyzer::Generate(){
 	fit->Draw("same");
 	
 	C->cd(2);*/
+	gStyle->SetOptStat(0);
+	ChiSquare_histo->GetXaxis()->SetTitle("#chi^{2}");
+	ChiSquare_histo->GetYaxis()->SetTitle("PDF");
+	ChiSquare_histo->SetTitle("PDF of test statistic");
 	ChiSquare_histo->Draw();
 	
 	C->SaveAs("ZD1.pdf");
@@ -133,6 +137,9 @@ void Analyzer::PValueScan(){
 	C->cd(2);*/
 	gPad->SetLogy();
 	scan->SetMinimum(0.00001);
+	scan->GetXaxis()->SetTitle("m_{H}");
+	scan->GetYaxis()->SetTitle("p-value");
+	scan->SetTitle("P-value scan");
 	scan->Draw("AL*");
 	
 	C->SaveAs("ZD2.pdf");
